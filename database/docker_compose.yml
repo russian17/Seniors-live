@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mongo:
+      image: mongo
+      container_name: Starisii-mongodb
+      restart: always
+      environment:
+        #- MONGO_INITDB_ROOT_USERNAME=mongo
+        #- MONGO_INITDB_ROOT_PASSWORD=password
+        - MONGO_INITDB_DATABASE=Starisii
+      volumes:
+        - ./data/mongodb_data:/data/db
+      ports:
+        - "27017:27017"
+  postgres:
+    image: postgres:latest
+    container_name: Starisii-Postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: starisii
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./data/postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/populate_data.sql:/docker-entrypoint-initdb.d/populate_data.sql
